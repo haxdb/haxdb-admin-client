@@ -1,0 +1,142 @@
+html {
+    background-color: #000;
+}
+
+img.sidelogo {
+    float: left;
+    height: 100px;
+    margin-right: 25px;
+}
+
+.loginbox {
+    text-align: left;
+}
+
+#login-start {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 580px;
+    height: 80px;
+    margin-left: -290px;
+    margin-top: -60px;
+}
+
+#login-email {
+    width: 500px;
+    margin: 10px;
+    font-size: 20pt;
+    height: 60px;
+}
+
+#login-start img {
+    width: 60px;
+    cursor: pointer;
+}
+
+#login-message {
+    text-align: center;
+    color: red;
+    font-weight: bold;
+    white-space: pre;
+    letter-spacing: 2px;
+}
+
+#login-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 580px;
+    margin-left: -290px;
+    margin-top: -60px;
+    color: #eee;
+    font-size: 20pt;
+    text-align: center;
+    vertical-align: middle;
+    padding: 20px;
+    border-radius: 5px;
+    display: none;
+}
+
+#login-submitted {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 580px;
+    margin-left: -290px;
+    margin-top: -60px;
+    border-style: solid;
+    border-color: #333;
+    border-width: 2px;
+    color: #eee;
+    font-size: 20pt;
+    text-align: center;
+    vertical-align: middle;
+    padding: 20px;
+    border-radius: 5px;
+    display: none;
+}
+
+#login-noapi {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 580px;
+    margin-left: -290px;
+    margin-top: -155px;
+    border-style: solid;
+    border-color: #333;
+    border-width: 2px;
+    color: #eee;
+    font-size: 20pt;
+    text-align: center;
+    vertical-align: middle;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+#login-new {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 580px;
+    margin-left: -290px;
+    margin-top: -133px;
+    border-style: solid;
+    border-color: #333;
+    border-width: 2px;
+    color: #eee;
+    font-size: 20pt;
+    text-align: center;
+    vertical-align: middle;
+    padding: 20px;
+    border-radius: 5px;
+    display: none;
+}
+
+#login-startover {
+    margin-right: 100px;
+}
+
+button .fa {
+    margin-right: 10px;
+}
+
+#login-register-submitted {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 580px;
+    margin-left: -290px;
+    margin-top: -133px;
+    border-style: solid;
+    border-color: #333;
+    border-width: 2px;
+    color: #eee;
+    font-size: 20pt;
+    vertical-align: middle;
+    padding: 20px;
+    border-radius: 5px;
+    display: none;
+}
+

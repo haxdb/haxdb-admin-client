@@ -1,0 +1,225 @@
+html, body {
+    height: 100%;
+}
+
+.BUTTON-TD {
+    min-width: 55px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.BUTTON-TD i {
+    padding: 10px;
+}
+
+.BUTTON-TD.disabled {
+    color: #ddd;
+    cursor: not-allowed;
+}
+
+#loader {
+    width: 100%;
+    height: 256px;
+    background: url(/img/loading.gif) no-repeat;
+    background-position: center;
+}
+
+td.TD-FILE {
+    text-align: center;
+}
+
+td.TD-FILE .btn-group {
+    margin: 10px;
+}
+
+table.table th {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+table.table tr {
+    height: 53px;
+}
+
+.TABLE-FILE-BUTTON-SPAN {
+    white-space: nowrap;
+}
+
+.TABLE-FILE-UPLOAD {
+    margin-right: 10px;
+}
+
+.TABLE-FILE-CLEAR {
+    margin-left: 25px;
+}
+
+TD.TD-EDIT {
+    padding: 0px !important;
+}
+
+.TABLE-EDIT {
+    background-color: inherit;
+    border-style: none;
+    width: 100%;
+    height: 50px;
+    margin: 0px;
+}
+
+input.TABLE-LINK {
+    cursor: pointer;
+}
+
+input.TABLE-EDIT {
+    padding-left: 10px;
+    padding-right: 10px;
+    text-overflow: ellipsis;
+}
+
+select.TABLE-EDIT {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+table.TABLE-FILTER {
+    width: 100%;
+}
+
+table.TABLE-FILTER td {
+    padding: 10px;
+}
+
+#logo {
+    margin-top: 10px;
+    margin-right: 10px;
+    height: 30px;
+}
+    
+#haxdb-user:focus {
+    background-color: #333 !important;
+}
+
+.dropdown-menu {
+    margin-top: 1px !important;
+    background-color: #eee !important;
+    border-radius: 0px 0px 5px 5px !important;
+    padding: 0px !important;
+}
+
+.dropdown-menu a {
+    color: #333 !important;
+}
+
+.dropdown-menu a:hover {
+    background-color: #ddd !important;
+}
+
+#userdropdown {
+    background-color: #000;
+    margin-top: 5px;
+}
+
+#page {
+    margin-top: 50px;
+    padding: 25px 50px;
+}
+
+#topbar {
+    background-color: #000;
+}
+
+
+#main-container {
+    height: 100%;
+    margin-left: 0px;
+    padding-left: 0px;
+}
+
+#main-row {
+    height: 100%;
+    margin-left: 0px;
+    padding-left: 0px;
+}
+
+#navbar li .fa {
+    margin-right: 15px;
+}
+
+#sidebar {
+    background-color: #eee;
+    padding: 0px;
+    padding-top: 53px;
+    padding-bottom: 100px;
+    text-align: center;
+    height: 100%;
+}
+
+#sidebar a {
+    display: block;
+    width: 100%;
+    padding: 0px;
+    padding-top: 25px; 
+    padding-bottom: 25px;
+    text-align: center;
+    border-style: solid;
+    border-width: 0px;
+    border-bottom-width: 1px;
+    border-color: #ccc;
+}
+
+
+#sidebar .fa {
+    display: block;
+    font-size: 2em;
+    margin: 10px;
+    text-align: center;
+}
+
+#sidebar a:hover {
+    background-color: #ddd;
+    color: #333;
+}
+
+.delete-ask-rowname {
+    text-align: left;
+    max-width: 375px;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+    padding: 10px;
+    font-weight: bold;
+}
+
+.FILTER-SELECT {
+    background: none;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #eee;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.scrollx {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+.scrollx table.table th {
+    min-width: 100px;
+}
+
+.scrollx table.table th.empty {
+    min-width: 55px;
+    width: 1%;
+}
+
+.TABLE-EDIT.saving {
+    color: blue;
+}
+
+.TABLE-EDIT.error {
+    font-weight: bold;
+    color: red;
+}
