@@ -7,22 +7,26 @@
 <tr> <td>
 <table width='100%'><tr>
 <td> <input ID='CONTEXT-SEARCH' type='text' class='form-control' placeholder='SEARCH' VALUE='<?=$_DEFAULT_QUERY?>'/> </td>
-<td width=300 class='hidden-xs hidden-sm'> 
-<select class='form-control' id='FIELDSET-SELECT' class='pull-right'> <option value='0'>DEFAULT FIELDSET</option> </select> 
-</td>
-<td width=150 ALIGN=RIGHT class='hidden-xs hidden-sm'>
-<div class='btn-group' role='group' aria-label="FIELDSET ACTIONS">
+<td width=110 class='hidden-xs hidden-sm'> 
+<div class='btn-group' role='group' arial-label='QUERY/FILTER'>
     <div class='btn-group' role='group'>
         <button class='btn dropdown-toggle' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
-            <i class='fa fa-plus'></i>
+            <i class='fa fa-filter'></i>
         </button>
-        <ul class='dropdown-menu'>
-            <li><a href='#' id='FIELDSET-NEW-USER'>NEW USER FIELDSET</a></li>
-            <li><a href='#' id='FIELDSET-NEW-GLOBAL'>NEW GLOBAL FIELDSET</a></li>
+        <ul class='dropdown-menu pull-right' ID='FILTER-DROPDOWN'>
+			<li><a href='#'>SAVE</a></li>
+			<li><a href='#'>SAVE AS...</a></li>
+            <li class='divider'></li>
         </ul>
     </div>
-    <button id='FIELDSET-EDIT' class='btn'><i class='fa fa-edit'></i></button>
-    <button id='FIELDSET-DELETE' class='btn'><i class='fa fa-trash'></i></button>
+    <div class='btn-group' role='group'>
+        <button class='btn dropdown-toggle' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
+            <i class='fa fa-columns'></i> 
+        </button>
+        <ul class='dropdown-menu pull-right' ID='FIELDSET-DROPDOWN'>
+            
+        </ul>
+    </div>
 </div>
 </td>
 </tr></table>
@@ -45,54 +49,68 @@
 var context = "<?= $context ?>";
 var context_id = <?= $context_id ?>;
 
-var COLS = {}; 
-<?php
-foreach ($_COLS as $col => $def){
-    echo "COLS['$col'] = { 'ORDER': ".$def["ORDER"].", 'HEADER': '".$def["HEADER"]."', 'TYPE': '".$def["TYPE"]."'";
-    if (!empty($def["LIST"])) echo ", 'LIST_NAME': '".$def["LIST"]."'";
-    echo "}\n";
-}
-?>
+var CURRENT_QUERY = null;
+var CURRENT_FIELDSET = null;
+var CURRENT_HEADERS = [];
 
+var COLS = [];
+var _COLS = {}; 
+var LISTS = []; 
+var _LISTS = {};
 var FIELDSETS = {};
 var CONTEXT_NAME = null;
-var CONTEXT_DATA = Array();
-var LISTS = Array();
-var LISTS_BY_NAME = {}; 
+var CONTEXT_DATA = [];
 
 load_fieldset_callback = function(data){
     if (api_success(data)){
         if (data.data){
-            var val = $('#FIELDSET-SELECT').val();
-            $('#FIELDSET-SELECT').find('option').remove();
+            $('#FIELDSET-DROPDOWN').empty();
+
             $.each(data.data, function(key, fieldset){
                 fieldset_id = fieldset["FIELDSET_ID"];
-                fieldset_name = fieldset["FIELDSET_NAME"];
-                fieldset_cols = fieldset["COLS"];
-                FIELDSETS[fieldset_id] = {};
-                FIELDSETS[fieldset_id]["NAME"] = fieldset_name;
-                FIELDSETS[fieldset_id]["COLS"] = [];
-                FIELDSETS[fieldset_id]["QUERY"] = fieldset["FIELDSET_QUERY"];
-                $.each(fieldset_cols, function(key,row){ FIELDSETS[fieldset_id]["COLS"].push(row["FIELDSET_COLS_COL"]); });
-                name = fieldset_name;
-                console.log(fieldset);
-                if (fieldset["FIELDSET_PEOPLE_ID"] != 0){
-                    name += " [USER]";
-                }
-                option = $("<option />", {value: fieldset_id, text: name} );
-                $('#FIELDSET-SELECT').append(option);
+                if (!CURRENT_FIELDSET){
+					CURRENT_FIELDSET = fieldset_id;
+					CURRENT_COLS = fieldset["COLS"];
+				}
+                FIELDSETS[fieldset_id] = fieldset;
+                name = fieldset["FIELDSET_NAME"]; 
+                if (fieldset["FIELDSET_PEOPLE_ID"] != 0){ name += " [USER]"; }
+                li = $("<li />");
+				a = $('<a/>').attr("href","#").text(name).addClass("FIELDSET-SELECT");
+				$(a).attr("FIELDSET-ID", fieldset_id);
+                $(li).append( a );
+                $('#FIELDSET-DROPDOWN').append(li);
             });
-            if (val){ 
-                var exists = false;
-                $('#FIELDSET-SELECT option').each(function(){ if (this.value == val){ exists = true; return false; } });
-                if (exists){ $('#FIELDSET-SELECT').val(val); }
-            }
-            $("#FIELDSET-SELECT").change();
+            $('#FIELDSET-DROPDOWN').prepend( $("<li/>").addClass("divider") );
+
+			name = FIELDSETS[CURRENT_FIELDSET]["FIELDSET_NAME"];
+
+            a = $("<a/>").attr({ "href":"#", "id": "FIELDSET-DELETE" }).text("DELETE");
+            $(a).addClass("FIELDSET-OPTION");
+            li = $("<li/>").append(a);
+            $('#FIELDSET-DROPDOWN').prepend( li );
+
+            a = $("<a/>").attr({ "href":"#", "id": "FIELDSET-SAVE-AS" }).text("SAVE AS..");
+            li = $("<li/>").append(a);
+            $(a).addClass("FIELDSET-OPTION");
+            $('#FIELDSET-DROPDOWN').prepend( li );
+
+            a = $("<a/>").attr({ "href":"#", "id": "FIELDSET-SAVE" }).text("SAVE ");
+            $(a).addClass("FIELDSET-OPTION");
+            li = $("<li/>").append(a);
+            $('#FIELDSET-DROPDOWN').prepend( li );
+
+            $('#FIELDSET-DROPDOWN').prepend( $("<li/>").addClass("divider") );
+
+            a = $("<a/>").attr({ "href":"#", "id": "CURRENT_FIELDSET" }).text(name);
+            li = $("<li/>").append(a);
+            $('#FIELDSET-DROPDOWN').prepend( li );
+ 
+            load_table();
         }else{
             data = { context: context, context_id: context_id };
-            data["name"] = "DEFAULT FIELDSET";
-            data["query"] = "<?=$_DEFAULT_QUERY?>";
-            data["cols"] = ["<?= implode("\",\"", $_DEFAULT_FIELDSET) ?>"];
+            data["FIELDSET_NAME"] = "DEFAULT FIELDSET";
+            data["COLS"] = ["<?= implode("\",\"", $_DEFAULT_FIELDSET) ?>"];
             data["global"] = 1;
             api("FIELDSET/new", data, function(data){
                 if (api_success(data)){
@@ -103,80 +121,108 @@ load_fieldset_callback = function(data){
     }
 }
 
-load_list_callback = function(data){
+select_fieldset = function(){
+	if (this){
+		fid = $(this).attr("FIELDSET-ID");
+		fname = FIELDSETS[fid]["FIELDSET_NAME"];
+		CURRENT_FIELDSET=fid;
+		CURRENT_COLS = FIELDSETS[fid]["COLS"];
+		$('#CURRENT_FIELDSET').text(fname);
+		draw_table();
+	}
+}
+
+save_fieldset_callback = function(data){
+	if (api_success(data)){
+		if (data.message){ haxSay(data.message); }
+		load_fieldsets();
+	}
+}
+
+save_fieldset = function(){
+	var data = { "COLS": CURRENT_COLS, "context": "<?= $context ?>", "context_id": <?= $context_id ?> }
+	data["rowid"] = CURRENT_FIELDSET;
+	api("FIELDSET/save", data, save_fieldset_callback);
+}
+
+save_as_fieldset_callback = function(data){
+	if (api_success(data)){
+		if (data.message){ haxSay(data.message); }
+        if (data.meta.rowid){ CURRENT_FIELDSET = data.meta.rowid; }
+		load_fieldsets();
+	}
+}
+
+save_as_fieldset = function(){
+	haxGet("FIELDSET NAME", "NEW_FIELDSET", function(fieldset_name){
+		if (fieldset_name){
+			var data = { "COLS": CURRENT_COLS, "context": "<?= $context ?>", "context_id": <?= $context_id ?> }
+			data["FIELDSET_NAME"] = fieldset_name;
+			api("FIELDSET/new", data, save_as_fieldset_callback);
+		}	
+	});
+}
+
+
+delete_fieldset_callback = function(data){
     if (api_success(data)){
-        if (data.data){
-			lists_id = data.data[0]["LISTS_ID"];
-            lists_name = data.data[0]["LISTS_NAME"];
-            LISTS[lists_id] = data.data;
-            LISTS_BY_NAME[lists_name] = lists_id;
-        }
+        if (data.message){ haxSay(data.message); }
+        CURRENT_FIELDSET = null;
+        load_fieldsets();
     }
 }
 
-load_udf_callback = function(data){
-    UDF = Array();
-    if (api_success(data)){ 
-        if (data.data){ 
-            $.each(data.data, function(key, row){
-                name = row["UDF_NAME"];
-                type = row["UDF_TYPE"];
-                order = row["UDF_ORDER"];
-                list = null;
-                if (row["UDF_TYPE"] == "LIST" && row["UDF_LISTS_ID"]){
-                    list = row["UDF_LISTS_ID"];
-                    if (!(LISTS[row["UDF_LISTS_ID"]])){
-                        api("LIST_ITEMS/list", { "lists_id": row["UDF_LISTS_ID"] }, load_list_callback);
-                    }
-                }
-                COLS[name] = { "ORDER": order, "HEADER": name, "TYPE": type, "LIST": list }
-            });
-        } 
-    }
+delete_fieldset = function(){
+	fname = FIELDSETS[CURRENT_FIELDSET]["FIELDSET_NAME"]
+	alertify.confirm("Are you sure you want to delete:<br/><strong>" + fname + "</strong>", function(){
+        api("FIELDSET/delete", { "rowid": CURRENT_FIELDSET }, delete_fieldset_callback);
+    });
 }
 
 load_table_callback = function(data){
     if (api_success(data)){
-        if (data.data){ CONTEXT_DATA = data.data; }else{ CONTEXT_DATA = {}; }
+        CONTEXT_DATA = [];
+        if (data.data){
+            CONTEXT_DATA = data.data; 
+            COLS = data.meta.cols;
+            _LISTS = data.meta.lists;
+
+			LISTS = [];
+			$.each(_LISTS, function(key, list){ LISTS[list["LISTS_ID"]] = list; });
+
+			_COLS = {};
+			$.each(COLS, function(key,col){ _COLS[col["NAME"]] = col; });
+        }
+
         if (data.meta && data.meta.context_name){
-		CONTEXT_NAME = data.meta.context_name;
-		$('#CONTEXT-NAME').text(": " + data.meta.context_name);
-	}
+		    CONTEXT_NAME = data.meta.context_name;
+	    	$('#CONTEXT-NAME').text(": " + data.meta.context_name);
+    	}
         draw_table();
     }
 }
 
 draw_table = function(){
-    fieldset = FIELDSETS[$('#FIELDSET-SELECT').val()];
-    if (fieldset["COLS"]){
-        fields = fieldset["COLS"];
-    }else{
-        fields = [];
-    }
     $('#loader').hide();
     $('#CONTEXT-TABLE thead').empty();
     $('#CONTEXT-TABLE').trigger("destroy");
 
     tr = $('<tr>');
 
-    th = $('<th>').css("width","1%").html("ID").attr("title","<?=$context?>_ID");
-    tr.append(th);
-
     total = 0;
-    $.each(fields, function(key,col){
-        if (COLS[col]){
+    $.each(CURRENT_COLS, function(key,col){
+        if (_COLS[col]){
             total += 1;
-            header = COLS[col]["HEADER"];
+            header = _COLS[col]["HEADER"];
             th = $('<th>').html(header).attr("title",col);
-            if (total > 2){ $(th).addClass("hidden-xs hidden-sm"); }
+            if (total > 3){ $(th).addClass("hidden-xs hidden-sm"); }
             tr.append(th);
         }
     });
 
-    href = "/page/udf/<?=$context?>/<?=$context_id?>";
     if (CONTEXT_NAME) href += "/" + CONTEXT_NAME;
     th = $('<th>').addClass("empty").css("width","1%").attr("colspan",2).css("text-align", "center");
-    $(th).addClass("TD-LINK BUTTON-TD").attr("href",href);
+    $(th).attr("id","COLS-EDIT"); //.attr("href",href);
     icon = $('<i/>').addClass("fa").addClass("fa-list");
     $(th).append(icon);
     tr.append(th);
@@ -187,23 +233,15 @@ draw_table = function(){
         $.each(CONTEXT_DATA, function(rowid,row){
             tr = $('<tr>');
 
-            td = $('<td>').addClass("TD-EDIT");
-            input = $('<input/>').attr({ type: 'text', disabled: true}).addClass("TABLE-EDIT").val(row["<?= $context ?>_ID"]);
-            $(td).append(input);
-            $(tr).append(td);
-
             total = 0;
-            $.each(fields, function(key,col){
-                if (COLS[col]){
+            $.each(CURRENT_COLS, function(key,col){
+                if (_COLS[col]){
                     total += 1;
-	    			id = "<?= $context ?>-" + row["<?= $context ?>_ID"] + "-" + col;
-			    	type = COLS[col]["TYPE"];
+	    			id = row["<?= $context ?>_ID"];
+			    	type = _COLS[col]["TYPE"];
 		    		val = row[col];
-                    list = null;
-                    if (COLS[col]["LIST"]){ list = LISTS[COLS[col]["LIST"]]; }
-                    if (COLS[col]["LIST_NAME"]){ list = LISTS[LISTS_BY_NAME[COLS[col]["LIST_NAME"]]]; }
-                    td = haxdb_table_cell ( id, type, val, list );
-                    if (total > 2){ $(td).addClass("hidden-xs hidden-sm"); }
+					td = haxdb_table_cell ( _COLS[col], context, id, val );
+                    if (total > 3){ $(td).addClass("hidden-xs hidden-sm"); }
 			    	$(tr).append(td);
                 }
             });
@@ -231,17 +269,86 @@ draw_table = function(){
     }
 }
 
-new_callback = function(data){
-    if (api_success(data)){
+cols_edit_callback = function(data){
+	$('#haxdb-fieldset-modal .modal-title').html("COLS: " + context);
+
+    table = $("<table>").addClass("table table-striped table-bordered tablesorter tablesorter-default");
+    tbody = $("<tbody>");
+    $.each(COLS, function(key,col){
+		tr = $("<tr>");
+        id = "COLS-EDIT-COL-" + col["NAME"];
+        checkbox = $("<input>").attr("type","checkbox").attr("id", id);
+		$(checkbox).attr("colname", col["NAME"]);
+		if (CURRENT_COLS.indexOf(col["NAME"]) >= 0){ $(checkbox).attr("checked", true); }
+        $(checkbox).addClass("COLS-EDIT-CHECKBOX");
+        $(checkbox).attr("COLS-COL", col);
+        $("<td>").html(checkbox).appendTo(tr);
+        $("<td>").html(col["HEADER"]).addClass("CHECKBOX-CLICK").attr("CHECKBOX-TARGET",id).appendTo(tr);
+        tbody.append(tr);
+    });
+
+    table.append(tbody);
+    $('#haxdb-fieldset-modal .modal-body').html(table);
+
+	$('#haxdb-fieldset-modal').modal();
+}
+
+$(document).on("hidden.bs.modal", '#haxdb-fieldset-modal', function(){ 
+	CURRENT_COLS = []
+	$.each( $(".COLS-EDIT-CHECKBOX:checked") , function(key, checkbox){
+		colname = $(checkbox).attr("colname");
+		CURRENT_COLS.push(colname);
+	});
+	draw_table();
+});
+
+new_row_save_callback = function(data){
+    if (data && data.success && data.success==1){ 
         haxSay(data.message,"success");
+        $("#haxdb-new-modal").modal("hide");
         load_table(); 
+    }else{
+
+        if (data && data.message){
+            $("#haxdb-new-modal .form-error").html(data.message);
+        }else{
+            $("#haxdb-new-modal .form-error").html("UNKOWN ERROR");
+        }
+        $("#haxdb-new-modal .form-error").show();
     }
 }
 
+new_row_save = function(){
+    var url = context + "/new";
+    var data = {}
+    $("#haxdb-new-modal .modal-body .FORM-EDIT").each(function(key, input){
+        col = $(input).attr("haxdb-col");
+        val = $(input).val();
+        data[col] = val;
+    });
+    api(url, data, new_row_save_callback);
+}
+
 new_row = function(data){
-    var call = "<?=$context?>/new";
-    var data = { "<?=$_NEW_ASK?>": data, context_id: context_id }
-    api(call,data,new_callback);
+    $('#haxdb-new-modal .modal-title').html("NEW: " + context);
+
+    body = $('#haxdb-new-modal .modal-body');
+    $(body).html("");
+    $("#haxdb-new-modal .form-error").hide();
+     
+    form = $("<form/>").addClass("form-horizontal").attr("role","form");
+    
+    $.each(COLS, function(key, col){
+        if (col.NEW && col.NEW == 1){
+            val = "";
+            if (col.DEFAULT) val = col.DEFAULT;
+            element = haxdb_form_cell( col, context, "NEW", val );
+            $(form).append(element);
+        }
+    });
+    $(body).append(form);
+    
+    $("#haxdb-new-modal").modal("show");
 }
 
 load_table = function(){
@@ -254,46 +361,21 @@ load_table = function(){
     api("<?= $context ?>/list", data, load_table_callback);
 }
 
-load_lists = function(){
-<?php
-    $seenlist = Array();
-    foreach ($_COLS as $col => $def){
-        if (!empty($def["LIST"]) && empty($seenlist[$def["LIST"]])){
-?>
-        api("LIST_ITEMS/list", { "lists_name": "<?=$def["LIST"]?>" }, load_list_callback);
-<?php
-        }
-    }
-?>
-}
-
-load_udf = function(){
-	api("UDF/list", { "context": "<?= $context ?>", "context_id": <?= intval($context_id) ?> }, load_udf_callback);
-}
-
 load_fieldsets = function(){
     api("FIELDSET/list", { "context": context, "context_id": context_id }, load_fieldset_callback);
 }
 
 $(function(){
-    $('#FIELDSET-SELECT').change( function(){ 
-        fieldset = $('#FIELDSET-SELECT').val();
-        old_query = $('#CONTEXT-SEARCH').val();
-        query = FIELDSETS[fieldset]["QUERY"];
-        if (old_query != query){
-            $('#CONTEXT-SEARCH').val(query);
-            load_table();
-        }else{
-            draw_table(); 
-        }
-    });
-    $('#CONTEXT-TABLE').tablesorter( {textExtraction: tablesortExtraction} );
-    $('#CONTEXT-NEW').click(function(){ haxGet("<?= strtoupper($_NEW_ASK) ?>", "<?= $_NEW_ASK_DEFAULT ?>", new_row); });
     $('#CONTEXT-SEARCH').change(load_table);
+    $('#CONTEXT-TABLE').tablesorter( {textExtraction: tablesortExtraction} );
+    $('#CONTEXT-NEW').click(new_row);
+    $(document).on("click",'#COLS-EDIT',cols_edit_callback);
+	$(document).on("click","#FIELDSET-SAVE",save_fieldset);
+	$(document).on("click","#FIELDSET-SAVE-AS",save_as_fieldset);
+	$(document).on("click","#FIELDSET-DELETE",delete_fieldset);
+	$(document).on("click",".FIELDSET-SELECT",select_fieldset);
+    $('#haxdb-new-modal-save').click(new_row_save);
     load_fieldsets();
-    load_lists();
-	load_udf();
-    load_table();
 });
 
 </script>

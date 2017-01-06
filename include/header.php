@@ -51,7 +51,7 @@
             <li>
                 <a href='#' id='haxdb-user' class='dropdown-toggle' data-toggle='dropdown'><script> document.write(localStorage.identity); </script> <b class='caret'></b></a>
                 <span class="dropdown-arrow hidden-xs"></span>
-                <ul class='dropdown-menu'>
+                <ul class='dropdown-menu pull-right'>
                     <li><a href="/page/lists"><span class='fa fa-fw fa-list'></span>LISTS</a></li>
                     <li><a href="/page/nodes"><span class='fa fa-fw fa-cube'></span>NODES</a></li>
                     <li><a href="/auth"><span class='fa fa-fw fa-sign-out'></span>LOGOUT</a></li>
