@@ -24,6 +24,10 @@ html, body {
     background-position: center;
 }
 
+.haxdb-header-button {
+  background: none;
+}
+
 td.TD-FILE {
     text-align: center;
 }
@@ -35,7 +39,6 @@ td.TD-FILE .btn-group {
 table.table th {
     white-space: nowrap;
     text-overflow: ellipsis;
-    overflow: hidden;
     cursor: pointer;
 }
 
@@ -95,7 +98,7 @@ table.TABLE-FILTER td {
     margin-right: 10px;
     height: 30px;
 }
-    
+
 #haxdb-user:focus {
     background-color: #333 !important;
 }
@@ -159,7 +162,7 @@ table.TABLE-FILTER td {
     display: block;
     width: 100%;
     padding: 0px;
-    padding-top: 25px; 
+    padding-top: 25px;
     padding-bottom: 25px;
     text-align: center;
     border-style: solid;
@@ -204,6 +207,7 @@ table.TABLE-FILTER td {
     width: 100%;
     max-width: 100%;
     overflow-x: auto;
+    min-height: 500px;
 }
 
 .scrollx table.table th {
@@ -255,15 +259,14 @@ table.TABLE-FILTER td {
 	}
 }
 
-a#CURRENT_FIELDSET {
-    font-weight: bold;
-    text-align: center;
-    cursor: not-allowed; 
-}
-
 a.FIELDSET-OPTION {
     font-style: italic;
     color: #666 !important;
+}
+
+a.FIELDSET-SELECT.current {
+  font-weight: bold;
+  cursor: not-allowed;
 }
 
 a#CURRENT_QUERY {
@@ -276,3 +279,11 @@ a.QUERY-OPTION {
     font-style: italic;
 }
 
+a.QUERY-SELECT.current {
+  font-weight: bold;
+  cursor: not-allowed;
+}
+
+.dropdown-menu {
+
+}

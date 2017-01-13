@@ -33,7 +33,7 @@ save_callback = function(data){
         });
     }else{
 
-        if (data.meta){ 
+        if (data.meta){
             base = data.meta.api + "-" + data.meta.rowid + "-";
             $.each(data.meta.updated, function(key,col){
                 obj = document.getElementById(base + col);
@@ -59,47 +59,7 @@ $(document).on("change",'.TABLE-EDIT',function(){
     api(call,data,save_callback);
 });
 
-$(document).on("click",".TABLE-DELETE",function(){
-    var tr = $(this).closest("tr");
-    var id = $(this).attr("id").split("-");
-    var table = id[1];
-    var rowid = id[2];
-    var rowkey1 = $("[id='" + $(this).attr("rowkey1") + "']").val();
-    var rowkey2 = $("[id='" + $(this).attr("rowkey2") + "']").val();
-    var rowkey3 = $("[id='" + $(this).attr("rowkey3") + "']").val();
-    var rowname = "";
-    var call = table + "/delete/" + rowid;
 
-    if (rowkey1){ rowname = escapeHTML(rowkey1); }
-    if (rowkey2){ rowname = rowname + " " + escapeHTML(rowkey2); }
-    if (rowkey3){ rowname = rowname + "<BR/>" + escapeHTML(rowkey3); }
-
-    alertify.confirm("Are you sure you want to delete:<br/><div class='delete-ask-rowname'>" + rowname + "</div>", function(){ 
-        api(call, {}, function(data){
-            if (api_success(data)){
-                $(tr).remove();
-                $('table').trigger("update");
-                haxSay("DELETED","error");
-            }
-        });
-    });
-});
-
-$(document).on("click",".CONTEXT-ROW-DELETE:not(.disabled)", function(){
-	var tr = $(this).closest("tr");
-	var rowid = $(this).attr("DELETE-ROWID");
-	var rowname = $(this).attr("DELETE-NAME");
-	var call = context + "/delete/" + rowid;
-
-	alertify.confirm("Are you sure you want to delete:<br/>"+rowname, function(){
-        api(call, {}, function(data){
-            if (api_success(data)){
-                $(tr).remove();
-                haxSay("DELETED","error");
-            }
-        });
-	});
-});
 
 $(document).on("keydown", '.TABLE-EDIT', function(e){
     if (e.which == 38){
@@ -108,7 +68,7 @@ $(document).on("keydown", '.TABLE-EDIT', function(e){
         $(this).closest('tr').prev().children().eq(cellIndex).find(".TABLE-EDIT").focus();
     }
     if (e.which == 40){
-        // DOWN 
+        // DOWN
         var cellIndex = $(this).closest("td").index();
         $(this).closest('tr').next().children().eq(cellIndex).find(".TABLE-EDIT").focus();
     }
@@ -161,6 +121,7 @@ $(document).on("click",".TABLE-LINK", function(){
 });
 
 haxdb_input = function ( id, type, val, list ){
+    input = null;
     if (type == "TEXT" || type == "STR"){
         input = $('<input/>').attr({ id: id, type: 'text'}).val(val);
     }
@@ -186,7 +147,7 @@ haxdb_input = function ( id, type, val, list ){
 
 	if (type == "LIST"){
         input = $('<select/>').attr("id",id);
-		$("<option />", {value: "", text: ""}).appendTo(input);
+		    $("<option />", {value: "", text: ""}).appendTo(input);
         $.each(list, function(key,item){
             $("<option />", {value: item["VALUE"], text: item["DESCRIPTION"]}).appendTo(input);
         });
@@ -236,16 +197,16 @@ haxdb_form_cell = function ( col, context, rowid, val ) {
 }
 
 haxdb_table_cell = function ( col, context, rowid, val ){
-    id = context + "-" + rowid + "-" + col["NAME"];
+  id = context + "-" + rowid + "-" + col["NAME"];
 	list = [];
-    if (col["LIST"]){ list = LISTS[col["LIST"]]; }
-    if (col["LIST_NAME"]){ list = _LISTS[col["LIST_NAME"]]; }
+  if (col["LIST"]){ list = LISTS[col["LIST"]]; }
+  if (col["LIST_NAME"]){ list = _LISTS[col["LIST_NAME"]]; }
 
-    td = $('<td>').addClass("TD-EDIT");
-    input = haxdb_input( id, col["TYPE"], val, list );
-    $(input).addClass("TABLE-EDIT");
-    $(td).append(input);
-    return td;
+  td = $('<td>').addClass("TD-EDIT");
+  input = haxdb_input( id, col["TYPE"], val, list );
+  $(input).addClass("TABLE-EDIT");
+  $(td).append(input);
+  return td;
 }
 
 
@@ -258,4 +219,3 @@ $(document).on("click", ".TD-LINK:not(.disabled)", function(){
 	href = $(this).attr("href");
 	document.location = href;
 });
-
