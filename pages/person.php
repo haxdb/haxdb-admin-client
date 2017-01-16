@@ -1,18 +1,21 @@
 <?php
 $rowid = intval($_GET["arg1"]);
 
-$context = "PEOPLE";
-$context_id = 0;
+$api_name = "PEOPLE";
+$api_context = "PEOPLE";
+$api_context_id = $rowid;
+$udf_context = "PEOPLE";
+$udf_context_id = 0;
+$col_internal = "";
+$col_rowid = "PEOPLE_ID";
 
-$list_link = "/page/people";
-$list_name = "PEOPLE";
-
-$_CONTEXT_NAME = "PEOPLE_NAME_FIRST.PEOPLE_NAME_LAST";
+$_PAGE_NAME = "PEOPLE_NAME_FIRST.PEOPLE_NAME_LAST";
+$_PARENT_PAGE = "people";
 ?>
 <h5>
-<a href='<?= $list_link ?>'><?= $list_name ?></a>
-&nbsp;&nbsp;&gt;&nbsp;&nbsp;
-<span id='CONTEXT-NAME'></span>
+  <a href='/page/<?= $_PARENT_PAGE ?>'><?= $api_name ?></a>
+  &nbsp;&nbsp;&gt;&nbsp;&nbsp;
+  <span id='PAGE-NAME'></span>
 </h5>
 <hr/>
 
@@ -24,20 +27,8 @@ $_CONTEXT_NAME = "PEOPLE_NAME_FIRST.PEOPLE_NAME_LAST";
 <div class='panel panel-default'>
   <div class='panel-body'>
 
-<script>
-  context = "<?= $context ?>";
-  rowid = <?= $rowid ?>;
-  context_name = [];
-  <?php
-  $cnames = explode(".", $_CONTEXT_NAME);
-  foreach($cnames as $cname){
-    echo "context_name.push(\"$cname\");";
-  }
-  ?>
-</script>
-
 <?php
-include("context-view.php");
+include("api-view.php");
 ?>
 
   </div>

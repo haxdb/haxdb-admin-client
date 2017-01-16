@@ -16,12 +16,12 @@ find_PAGE_DATA = function(rowid){
   rowid = parseInt(rowid);
   result = null;
   $.each(PAGE_DATA, function(key, row){
-    console.log(row[ROWID_NAME] == rowid);
-    if (row[ROWID_NAME] && row[ROWID_NAME]==rowid){
+    if (row[col_rowid] && row[col_rowid]==rowid){
       result = row;
       return false;
     }
   });
+  console.log(result);
   return result;
 }
 
@@ -87,8 +87,8 @@ save_fieldset_callback = function(data) {
 save_fieldset = function() {
     var data = {
         "COLS": CURRENT_COLS,
-        "context": context,
-        "context_id": context_id,
+        "context": api_context,
+        "context_id": api_context_id,
         "rowid": CURRENT_FIELDSET
     }
     api("FIELDSET/save", data, save_fieldset_callback);
@@ -106,8 +106,8 @@ save_query_callback = function(data){
 save_query = function(){
   var data = {
     "QUERY_QUERY": $("#PAGE-SEARCH").val(),
-    "context": context,
-    "context_id": context_id,
+    "context": api_context,
+    "context_id": api_context_id,
     "rowid": CURRENT_QUERY
   }
   api("QUERY/save", data, save_query_callback);
@@ -129,8 +129,8 @@ save_as_fieldset = function() {
     haxGet("FIELDSET NAME", "NEW_FIELDSET", function(fieldset_name) {
         if (fieldset_name) {
             var data = {
-                "context": context,
-                "context_id": context_id,
+                "context": api_context,
+                "context_id": api_context_id,
                 "FIELDSET_NAME": fieldset_name,
                 "COLS": CURRENT_COLS,
             }
@@ -155,8 +155,8 @@ save_as_query = function(){
   haxGet("QUERY NAME", "NEW_QUERY", function(query_name) {
     if (query_name) {
       var data = {
-        "context": context,
-        "context_id": context_id,
+        "context": api_context,
+        "context_id": api_context_id,
         "QUERY_NAME": query_name,
         "QUERY_QUERY": $("#PAGE-SEARCH").val(),
       }
@@ -205,8 +205,8 @@ delete_query = function(){
 
 load_table_callback = function(data) {
     if (api_success(data)) {
-        if (data.meta && data.meta.PAGE_NAME){
-          $("#PAGE-NAME").html(data.meta.PAGE_NAME);
+        if (data.meta && data.meta.page_name){
+          $("#PAGE-NAME").html(data.meta.page_name);
         }
         ROWID_NAME = data.meta.rowid_name
         PAGE_DATA = [];
@@ -224,10 +224,10 @@ load_table_callback = function(data) {
             _COLS[col["NAME"]] = col;
         });
 
-        if (data.meta && data.meta.PAGE_NAME) {
-            PAGE_NAME = data.meta.PAGE_NAME;
-            $('#PAGE-NAME').text(": " +data.meta.PAGE_NAME);
-            $('#PAGE-PARENT-NAME').text(data.meta.PAGE_NAME);
+        if (data.meta && data.meta.page_name) {
+            PAGE_NAME = data.meta.page_name;
+            $('#PAGE-NAME').text(": " +data.meta.page_name);
+            $('#PAGE-PARENT-NAME').text(data.meta.page_name);
         }
         draw_table();
     }
@@ -570,7 +570,10 @@ new_row_save_callback = function(data) {
 
 new_row_save = function() {
     var url = api_name + "/new";
-    var data = { "context": context, "context_id": context_id }
+    var data = {
+      "context": api_context,
+      "context_id": api_context_id
+    }
     $("#haxdb-new-modal .modal-body .FORM-EDIT").each(function(key, input) {
         col = $(input).attr("haxdb-col");
         val = $(input).val();
@@ -604,8 +607,8 @@ new_row = function(data) {
 load_table = function() {
     var query = $('#PAGE-SEARCH').val();
     var data = {
-        context: context,
-        context_id: context_id
+        context: api_context,
+        context_id: api_context_id
     };
     if (query) {
         data["query"] = query;
@@ -618,15 +621,15 @@ load_table = function() {
 
 load_fieldsets = function() {
     api("FIELDSET/list", {
-        "context": context,
-        "context_id": context_id
+        "context": api_context,
+        "context_id": api_context_id
     }, load_fieldset_callback);
 }
 
 load_queries = function() {
     api("QUERY/list", {
-        "context": context,
-        "context_id": context_id
+        "context": api_context,
+        "context_id": api_context_id
     }, load_query_callback);
 }
 
@@ -668,16 +671,16 @@ $(function() {
     });
     $('#PAGE-NEW').click(new_row);
     $(document).on("click", '.FIELDSET-EDIT', cols_edit_callback);
-	$(document).on("click", ".FIELDSET-SAVE", save_fieldset);
+    $(document).on("click", ".FIELDSET-SAVE", save_fieldset);
     $(document).on("click", ".FIELDSET-NEW", save_as_fieldset);
     $(document).on("click", ".FIELDSET-DELETE", delete_fieldset);
-	$(document).on("click", ".FIELDSET-SELECT", select_fieldset);
-	$(document).on("click", ".QUERY-SAVE", save_query);
+    $(document).on("click", ".FIELDSET-SELECT", select_fieldset);
+    $(document).on("click", ".QUERY-SAVE", save_query);
     $(document).on("click", ".QUERY-NEW", save_as_query);
     $(document).on("click", ".QUERY-DELETE", delete_query);
-	$(document).on("click", ".QUERY-SELECT", select_query);
+    $(document).on("click", ".QUERY-SELECT", select_query);
     $('#haxdb-new-modal-save').click(new_row_save);
     load_fieldsets();
     load_queries();
-		load_table();
+    load_table();
 });

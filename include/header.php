@@ -49,9 +49,8 @@
           <ul class="nav navbar-nav navbar-right hidden-xs">
             <li><a href="https://knoxmakers.org" target='_BLANK'><span class='fa fa-fw fa-globe'></span>WEBSITE</a></li>
             <li>
-                <a href='#' id='haxdb-user' class='dropdown-toggle' data-toggle='dropdown'><script> document.write(localStorage.identity); </script> <b class='caret'></b></a>
-                <span class="dropdown-arrow hidden-xs"></span>
-                <ul class='dropdown-menu pull-right'>
+                <a href='#' id='haxdb-user' class='dropdown-toggle' data-toggle='dropdown' style='margin-right:10px;'><script> document.write(localStorage.identity); </script> <b class='caret'></b></a>
+                <ul class='dropdown-menu dropdown-menu-right pull-left'>
                     <li><a href="/page/lists"><span class='fa fa-fw fa-list'></span>LISTS</a></li>
                     <li><a href="/page/nodes"><span class='fa fa-fw fa-cube'></span>NODES</a></li>
                     <li><a href="/auth"><span class='fa fa-fw fa-sign-out'></span>LOGOUT</a></li>

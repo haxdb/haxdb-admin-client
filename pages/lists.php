@@ -1,20 +1,18 @@
 <?php
 
-$context = "LISTS";
-$context_id = 0;
+$api_name = "LISTS";
+$api_context = "LISTS";
+$api_context_id = 0;
+$udf_context = "LISTS";
+$udf_context_id = 0;
+$col_internal = "";
+$col_rowid = "LISTS_ID";
+$_SHOW_TITLE = True;
+$_EDIT_PAGE = "list-items";
+$_PAGE_NAME = "LISTS_NAME";
+$_ROW_NAME = "LISTS_NAME";
 
-$_COLS = array(
-    "LISTS_NAME" => array("ORDER" => 0.1,    "HEADER" => "NAME",      "TYPE" => "TEXT"),
-);
-
-$_DEFAULT_FIELDSET = array("LISTS_NAME");
 $_DEFAULT_QUERY = "";
 
-$_EDIT_PAGE = "list-items";
-$_ROW_NAME[0] = "LISTS_NAME";
-
-$_NEW_ASK = "name";
-$_NEW_ASK_DEFAULT = "NEW LIST";
-
-include("context-list.php");
+include("api-list.php");
 ?>
