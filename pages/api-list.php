@@ -1,32 +1,34 @@
 <script>
-var _DEFAULT_FIELDSET = ["<?= implode("\",\"", $_DEFAULT_FIELDSET) ?>"];
-var _EDIT_PAGE = "<?= $_EDIT_PAGE ?>";
+var _API = "<?= $_API ?>";
+var _API_CONTEXT = "<?= $_API_CONTEXT ?>";
+var _API_CONTEXT_ID = "<?= $_API_CONTEXT_ID ?>";
+
+var _ROW_EDIT = "<?= $_ROW_EDIT ?>";
+var _ROW_ID = "<?= $_ROW_ID ?>";
+var _ROW_INTERNAL = "<?= $_ROW_INTERNAL ?>";
 var _ROW_NAME = "<?= $_ROW_NAME ?>";
-var api_name = "<?= $api_name ?>";
-var col_rowid = "<?= $col_rowid ?>";
-var col_internal = "<?= $col_internal ?>";
-var api_context = "<?= $api_context ?>";
-var api_context_id = <?= $api_context_id ?>;
-var udf_context = "<?= $udf_context ?>";
-var udf_context_id = <?= $udf_context_id ?>;
 </script>
 
 <table class='TABLE-FILTER'>
 <tbody>
 <tr> <td>
-  <?php  if ($_SHOW_NEW !== false){ ?>
+  <?php  if ($_NEW !== false){ ?>
     <button id='PAGE-NEW' type="button" class="pull-right btn btn-primary" style='margin-top: 10px;'><i class="fa fa-plus"></i> &nbsp;&nbsp; NEW</button>
   <?php
   }
   ?>
-  <?php  if ($_SHOW_UDF !== false){ ?>
-    <a href="/page/udf/<?=$udf_context?>/<?=$udf_context_id?>" class="pull-right btn" style='margin-top: 10px; margin-right: 10px;'><i class="fa fa-columns"></i> &nbsp;&nbsp; UDF</a>
+  <?php  if ($_UDF !== false){ ?>
+    <a href="<?=$_UDF_LINK?>" class="pull-right btn" style='margin-top: 10px; margin-right: 10px;'><i class="fa fa-columns"></i> &nbsp;&nbsp; UDF</a>
   <?php
   }
   ?>
-  <?php if ($_SHOW_TITLE !== false){ ?>
-  <h4><?=$api_name?><span id='PAGE-NAME'></span></h4>
   <?php
+  if ($_TITLE !== false){
+    if (!empty($_API_PARENT)){
+      echo "<h4><A HREF='$_API_PARENT_LINK'>$_API_PARENT</A> &raquo; <span id='PAGE-NAME'></span></h4>";
+    }else{
+      echo "<h4>$_API<span id='PAGE-NAME'></span></h4>";
+    }
   }
   ?>
 </td> </tr>
@@ -34,20 +36,11 @@ var udf_context_id = <?= $udf_context_id ?>;
 <div class="input-group">
   <input ID='PAGE-SEARCH' type='text' class='form-control' placeholder='SEARCH' VALUE='<?=$_DEFAULT_QUERY?>'/>
   <div class="input-group-btn">
-    <div class="btn-group">
-      <button type=button class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <span class="fa fa-gear"></span>
-      </button>
-      <ul class='dropdown-menu dropdown-menu-right' ID='QUERY-OPTIONS'>
-      </ul>
-    </div>
-    <div class="btn-group">
       <button type=button class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span class="fa fa-angle-down"></span>
       </button>
       <ul class='dropdown-menu dropdown-menu-right' ID='QUERY-DROPDOWN'>
       </ul>
-    </div>
   </div>
 </div>
 </td> </tr>

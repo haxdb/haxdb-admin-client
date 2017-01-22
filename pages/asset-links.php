@@ -1,23 +1,40 @@
 <?php
-$rowid = intval($_GET["arg1"]);
+$rowid = $_GET["arg1"];
 
-$api_name = "ASSET_LINKS";
-$api_context = "ASSET_LINKS";
-$api_context_id = $rowid;
-$udf_context = "ASSET_LINKS";
-$udf_context_id = 0;
-$col_internal = "";
-$col_rowid = "ASSET_LINKS_ID";
-$_SHOW_TITLE = False;
-$_PAGE_NAME = "ASSETS_NAME";
+$_API = "ASSET_LINKS";
+$_API_CONTEXT = "ASSET_LINKS";
+$_API_CONTEXT_ID = 0;
+$_API_PARENT = "ASSET";
+$_API_PARENT_LINK = "/page/assets";
+
+$_ROW_EDIT = "";
+$_ROW_ID = "ASSET_LINKS_ID";
+$_ROW_INTERNAL = "";
 $_ROW_NAME = "ASSET_LINKS_NAME";
+
+$_TITLE = False;
+$_NEW = True;
+$_UDF = True;
+$_UDF_LINK = "/page/udf/ASSET_LINKS/0";
+
+$_DEFAULT_QUERY = "";
 
 ?>
 
+<script>
+var _DATA_LIST = {
+  "ASSETS_ID": <?= $rowid ?>,
+};
+var _DATA_NEW = {
+  "ASSETS_ID": <?= $rowid ?>,
+};
+var _DATA_SAVE = {};
+</script>
+
 <h5>
-<a href='/page/assets'>ASSETS</a>
-&nbsp;&nbsp;&gt;&nbsp;&nbsp;
-<span id='PAGE-PARENT-NAME'></span>
+  <a href='<?= $_API_PARENT_LINK ?>'><?= $_API_PARENT ?></a>
+  &nbsp;&nbsp;&raquo;&nbsp;&nbsp;
+  <span id='PAGE-NAME'></span>
 </h5>
 <hr/>
 

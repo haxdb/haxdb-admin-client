@@ -2,13 +2,31 @@
       </div>
     </div>
 
+    <div id="haxdb-id-picker-modal" class="modal" role="dialog">
+      <div class='modal-dialog'>
+          <div class='modal-content'>
+              <div class='modal-header'> <h4 class='modal-title'></h4> </div>
+              <div class='modal-body'>
+                <input id='PICKER-SEARCH' type='text' class='form-control' placeholder='SEARCH'/>
+                <hr/>
+                <table id='PICKER-TABLE' class="table table-bordered table-striped tablesorter tablesorter-default">
+                  <tbody>
+                  </tbody>
+                </table>
+                <hr/>
+                <div id='PICKER-RESULTS'></div>
+              </div>
+          </div>
+      </div>
+    </div>
+
     <div id='haxdb-fieldset-modal' class='modal' role='dialog'>
-        <div class='modal-dialog'>
-            <div class='modal-content'>
-                <div class='modal-header'> <h4 class='modal-title'></h4> </div>
-                <div class='modal-body'></div>
-            </div>
-        </div>
+      <div class='modal-dialog'>
+          <div class='modal-content'>
+              <div class='modal-header'> <h4 class='modal-title'></h4> </div>
+              <div class='modal-body'></div>
+          </div>
+      </div>
     </div>
 
     <div id='haxdb-new-modal' class='modal' role='dialog'>
@@ -16,11 +34,11 @@
             <div class='modal-content'>
                 <div class='modal-header'> <h4 class='modal-title'></h4> </div>
                 <div class='modal-body'></div>
-				<div class='modal-footer'>
+                  <div class='modal-footer'>
                     <div class='alert alert-danger form-error' role='alert'></div>
-					<button type='button' class='btn btn-warning' data-dismiss='modal'>CANCEL</button>
-					<button type='button' id='haxdb-new-modal-save' class='btn btn-primary'>SAVE</button>
-				</div>
+                    <button type='button' class='btn btn-warning' data-dismiss='modal'>CANCEL</button>
+                    <button type='button' id='haxdb-new-modal-save' class='btn btn-primary'>SAVE</button>
+                  </div>
             </div>
         </div>
     </div>
@@ -36,7 +54,7 @@
     <input type='hidden' id='haxdb-file-download-col' name='col' value=''/>
     <input type='hidden' id='haxdb-file-download-api_key' name='api_key' value=''/>
 	</form>
-    
+
     <input type='TEXT' id='haxdb-copy-input' style='position: absolute; display: none; left: -5000px; top: -5000px;'/>
 
     <script src="/third-party/tablesorter/jquery.tablesorter.min.js"></script>
@@ -45,7 +63,7 @@
     <script src="/include/haxdb.js"></script>
     <script src="/include/haxdb.api.js"></script>
     <script src="/include/haxdb.table.js"></script>
+    <script src="/include/haxdb.picker.js"></script>
 
   </body>
 </html>
-

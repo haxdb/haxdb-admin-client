@@ -1,20 +1,27 @@
 <?php
 $rowid = intval($_GET["arg1"]);
 
-$api_name = "ASSETS";
-$api_context = "ASSETS";
-$api_context_id = $rowid;
-$udf_context = "ASSETS";
-$udf_context_id = 0;
-$col_internal = "";
-$col_rowid = "ASSETS_ID";
+$_API = "ASSETS";
+$_API_CONTEXT = "ASSETS";
+$_API_CONTEXT_ID = 0;
+$_API_PARENT = "ASSET";
+$_API_PARENT_LINK = "/page/assets";
 
-$_PAGE_NAME = "ASSETS_NAME";
-$_PARENT_PAGE = "assets";
+$_ROW_EDIT = "";
+$_ROW_ID = "ASSETS_ID";
+$_ROW_INTERNAL = "";
+$_ROW_NAME = "ASSETS_NAME";
+
+$_TITLE = False;
+$_NEW = False;
+$_UDF = False;
+$_UDF_LINK = "";
+
+$_DEFAULT_QUERY = "";
 ?>
 <h5>
-  <a href='/page/<?= $_PARENT_PAGE ?>'><?= $api_name ?></a>
-  &nbsp;&nbsp;&gt;&nbsp;&nbsp;
+  <a href='<?= $_API_PARENT_LINK ?>'><?= $_API ?></a>
+  &nbsp;&nbsp;&raquo;&nbsp;&nbsp;
   <span id='PAGE-NAME'></span>
 </h5>
 <hr/>

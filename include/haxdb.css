@@ -284,6 +284,6 @@ a.QUERY-SELECT.current {
   cursor: not-allowed;
 }
 
-.dropdown-menu {
-
+.QUICK-EDIT[readonly] {
+  color: #444;
 }

@@ -1,20 +1,28 @@
 <?php
 $rowid = intval($_GET["arg1"]);
 
-$api_name = "NODES";
-$api_context = "NODES";
-$api_context_id = $rowid;
-$udf_context = "NODES";
-$udf_context_id = 0;
-$col_internal = "";
-$col_rowid = "NODES_ID";
+$_API = "NODES";
+$_API_CONTEXT = "NODES";
+$_API_CONTEXT_ID = 0;
+$_API_PARENT = "NODE";
+$_API_PARENT_LINK = "/page/nodes";
 
-$_PAGE_NAME = "NODES_NAME";
+$_ROW_EDIT = "";
+$_ROW_ID = "NODES_ID";
+$_ROW_INTERNAL = "";
+$_ROW_NAME = "NODES_NAME";
+
+$_TITLE = False;
+$_NEW = False;
+$_UDF = False;
+$_UDF_LINK = "";
+
+$_DEFAULT_QUERY = "";
 ?>
 <h5>
-<a href='/page/nodes'>NODES</a>
-&nbsp;&nbsp;&gt;&nbsp;&nbsp;
-<span id='PAGE-NAME'></span>
+  <a href='<?= $_API_PARENT_LINK ?>'><?= $_API ?></a>
+  &nbsp;&nbsp;&raquo;&nbsp;&nbsp;
+  <span id='PAGE-NAME'></span>
 </h5>
 <hr/>
 
