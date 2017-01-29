@@ -2,6 +2,14 @@ html, body {
     height: 100%;
 }
 
+.modal-dialog{
+overflow-y: initial !important
+}
+.modal-body{
+max-height: calc(100vh - 200px);
+overflow-y: auto;
+}
+
 .BUTTON-TD {
     min-width: 55px;
     text-align: center;

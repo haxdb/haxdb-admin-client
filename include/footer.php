@@ -16,6 +16,10 @@
                 <hr/>
                 <div id='PICKER-RESULTS'></div>
               </div>
+              <div class='modal-footer'>
+                <button type='button' class='btn btn-warning' data-dismiss='modal'>CANCEL</button>
+                <button type='button' id='PICKER-CLEAR' class='btn btn-primary'>CLEAR</button>
+              </div>
           </div>
       </div>
     </div>
@@ -34,11 +38,11 @@
             <div class='modal-content'>
                 <div class='modal-header'> <h4 class='modal-title'></h4> </div>
                 <div class='modal-body'></div>
-                  <div class='modal-footer'>
-                    <div class='alert alert-danger form-error' role='alert'></div>
-                    <button type='button' class='btn btn-warning' data-dismiss='modal'>CANCEL</button>
-                    <button type='button' id='haxdb-new-modal-save' class='btn btn-primary'>SAVE</button>
-                  </div>
+                <div class='modal-footer'>
+                  <div class='alert alert-danger form-error' role='alert'></div>
+                  <button type='button' class='btn btn-warning' data-dismiss='modal'>CANCEL</button>
+                  <button type='button' id='haxdb-new-modal-save' class='btn btn-primary'>SAVE</button>
+                </div>
             </div>
         </div>
     </div>

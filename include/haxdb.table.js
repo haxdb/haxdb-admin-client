@@ -49,9 +49,14 @@ haxdb_input = function ( id, row, col, options, input_classes="", input_attrs={}
   if (type == "LIST"){
     input = $('<select/>').attr("id",id);
     $("<option />", {value: "", text: ""}).appendTo(input);
+    var valid_value = false;
     $.each(options, function(key,item){
       $("<option />", {value: item["VALUE"], text: item["DESCRIPTION"]}).appendTo(input);
+      if (item["VALUE"] == val) valid_value = true;
     });
+    if (!valid_value){
+      $("<option />", {value: val, text: val }).addClass("invalid").appendTo(input);
+    }
     $(input).val(val);
     $(input).addClass(input_classes);
     $(input).attr(input_attrs);
@@ -90,14 +95,11 @@ haxdb_input = function ( id, row, col, options, input_classes="", input_attrs={}
   }
 
   if (type == "ID"){
-    idname = "";
-    $.each(col["ID_VIEW"], function(key, v){
-      idname += " ";
-      idname += row[v];
-    });
-    input = $('<select/>').attr({ "id": id, "readonly": true });
+    idname = col["ID_API"] + " ID: " + val;
+    input = $('<select/>').attr({ "id": id });
     $("<option />", {value: val, text: idname}).appendTo(input);
     $(input).addClass("haxdb-picker");
+    $(input).attr("haxdb-picker-api", col["ID_API"]);
     $(input).val(val);
     $(input).addClass(input_classes);
     $(input).attr(input_attrs);
@@ -217,9 +219,10 @@ $(document).on("change",'.QUICK-EDIT',function(){
   var table = id[0];
   var rowid = id[1];
   var column = id[2];
-  var val = $(this).val();
   var call = table + "/save";
   var data = { "rowid": rowid };
+  var val = $(this).val();
+  if (!val){ val = ""; }
   data[column] = val;
   $(this).addClass("saving").removeClass("error");
   $('table').trigger("update");

@@ -16,13 +16,12 @@ draw_name = function(){
 
 draw_view = function(){
     $.each(COLS, function(key,col){
-      //label = col["HEADER"];
-      //name = col["NAME"];
       grp = haxdb_form_cell( col, _API, rowid, API_DATA);
       $(grp).addClass("row");
       $("#PAGE-VIEW-FORM").append(grp);
     });
     draw_name();
+    $(document).trigger("haxdb-view-draw");
 }
 
 load_view_callback = function(data){

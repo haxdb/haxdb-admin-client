@@ -544,6 +544,7 @@ draw_table = function() {
       textExtraction: tablesortExtraction
     });
   }
+  $(document).trigger("haxdb-table-draw");
 }
 
 new_row_save_callback = function(data) {
