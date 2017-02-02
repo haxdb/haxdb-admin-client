@@ -15,10 +15,28 @@ draw_name = function(){
 }
 
 draw_view = function(){
+    last_category = null;
     $.each(COLS, function(key,col){
+      category = last_category;
+      if (col["CATEGORY"]) category = col["CATEGORY"]
+      if (category != last_category){
+        if (last_category) { $("#PAGE-VIEW-FORM").append(cat); }
+        cat = $("<div>").addClass("panel panel-default");
+
+        cat_header = $("<div>").addClass("panel-heading");
+        cat_title = $("<h3>").addClass("panel-title").append(category);
+        $(cat_header).append(cat_title);
+        $(cat).append(cat_header);
+
+        cat_body = $("<div>").addClass("panel-body");
+        $(cat).append(cat_body);
+
+        $("#PAGE-VIEW-FORM").append(cat);
+      }
+      last_category = category;
       grp = haxdb_form_cell( col, _API, rowid, API_DATA);
       $(grp).addClass("row");
-      $("#PAGE-VIEW-FORM").append(grp);
+      $(cat_body).append(grp);
     });
     draw_name();
     $(document).trigger("haxdb-view-draw");

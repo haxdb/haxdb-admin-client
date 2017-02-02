@@ -17,11 +17,19 @@ var _ROW_NAME = "<?= $_ROW_NAME ?>";
   <?php
   }
   ?>
+
   <?php  if ($_UDF !== false){ ?>
-    <a href="<?=$_UDF_LINK?>" class="pull-right btn" style='margin-top: 10px; margin-right: 10px;'><i class="fa fa-columns"></i> &nbsp;&nbsp; UDF</a>
+    <a href="<?=$_UDF_LINK?>" class="pull-right btn btn-info" style='margin-top: 10px; margin-right: 10px;'><i class="fa fa-columns"></i> &nbsp;&nbsp; UDF</a>
   <?php
   }
   ?>
+
+  <?php  if ($_CSV !== false){ ?>
+    <a href="<?=$_API?>/csv" class="HAXDB-LIST-CSV pull-right btn btn-info" style='margin-top: 10px; margin-right: 10px;'><i class="fa fa-table"></i> &nbsp;&nbsp; CSV</a>
+  <?php
+  }
+  ?>
+
   <?php
   if ($_TITLE !== false){
     if (!empty($_API_PARENT)){

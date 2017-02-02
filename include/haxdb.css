@@ -2,6 +2,31 @@ html, body {
     height: 100%;
 }
 
+.view-category-label {
+  width: 100%;
+  font-weight: bold;
+  font-size: 1.25em;
+  border-color: #ccc;
+  border-width: 0px 0px 1px 0px;
+  border-style: solid;
+  margin-bottom: 10px;
+}
+
+.btn-info {
+    background-color: #FFF;
+    color: #aaa;
+}
+
+.btn-info:hover {
+  background-color: #fff;
+  color: #000;
+}
+
+.btn-info:focus {
+  background-color: #fff;
+  color: #000;
+}
+
 .modal-dialog{
 overflow-y: initial !important
 }

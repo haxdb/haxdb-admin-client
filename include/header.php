@@ -15,6 +15,7 @@
     <link href="/third-party/flat-ui/css/flat-ui.min.css" rel="stylesheet"/>
     <link href="/third-party/font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
     <link href="/third-party/alertify/alertify.css" rel="stylesheet"/>
+    <link href="/third-party/flatpickr/flatpickr.min.css" rel="stylesheet"/>
     <link href="/include/haxdb.css" rel="stylesheet">
     <script src="/third-party/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="/include/haxdb.config.php"></script>

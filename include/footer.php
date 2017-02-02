@@ -64,6 +64,7 @@
     <script src="/third-party/tablesorter/jquery.tablesorter.min.js"></script>
     <script src="/third-party/bootstrap/js/bootstrap.min.js"></script>
     <script src="/third-party/alertify/alertify.js"></script>
+    <script src="/third-party/flatpickr/flatpickr.min.js"></script>
     <script src="/include/haxdb.js"></script>
     <script src="/include/haxdb.api.js"></script>
     <script src="/include/haxdb.table.js"></script>

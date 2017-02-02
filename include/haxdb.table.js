@@ -9,10 +9,10 @@ haxdb_input = function ( id, row, col, options, input_classes="", input_attrs={}
     timestamp = null;
     if (val){
       var t = new Date(val * 1000);
-      timestamp = t.toLocaleString();
+      timestamp = t.getFullYear() + '-' +  t.getMonth() + '-' + t.getDate() + ' ' + t.getHours() + ':' + t.getMinutes() + ':' + t.getSeconds();
     }
-    //t.getFullYear() + '-' + t.getDate() + '-' + t.getMonth() + ' ' + t.getHours() + ':' + t.getMinutes() + ':' + t.getSeconds();
-    input = $("<input/>").attr({ id: id, type: "text", "disabled": true}).val(timestamp);
+    input = $("<input/>").attr({ id: id, type: "text" });
+    $(input).val(timestamp);
     $(input).attr("timestamp-value", val);
     $(input).addClass("TIMESTAMP");
     $(input).addClass(input_classes);
@@ -292,4 +292,13 @@ $(document).on("click",".CHECKBOX-CLICK", function(){
 $(document).on("click", ".TD-LINK:not(.disabled)", function(){
   href = $(this).attr("href");
   document.location = href;
+});
+
+$(document).on("haxdb-table-draw haxdb-view-draw", function(){
+  flatpickr(".TIMESTAMP", {
+    enableTime: true,
+    altInput: true,
+    altFormat: "Y-m-d H:i:S",
+    dateFormat: "U",
+  });
 });

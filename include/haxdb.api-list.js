@@ -666,6 +666,14 @@ $(document).on("click",".LIST-ROW-DELETE:not(.disabled)", function(){
 });
 
 $(function() {
+  $(document).on("click","a.HAXDB-LIST-CSV", function(e){
+    var call = _API + "/csv";
+    var data = _DATA_LIST;
+    data["query"] = $('#PAGE-SEARCH').val();
+    apiDownload(call,data);
+    e.preventDefault();
+  });
+
   $('#PAGE-SEARCH').change(load_table);
   $('#LIST-TABLE').tablesorter({
     textExtraction: tablesortExtraction
