@@ -12,7 +12,6 @@ haxdb_input = function ( id, row, col, options, input_classes="", input_attrs={}
       timestamp = t.getFullYear() + '-' +  t.getMonth() + '-' + t.getDate() + ' ' + t.getHours() + ':' + t.getMinutes() + ':' + t.getSeconds();
     }
     input = $("<input/>").attr({ id: id, type: "text" });
-    $(input).val(timestamp);
     $(input).attr("timestamp-value", val);
     $(input).addClass("TIMESTAMP");
     $(input).addClass(input_classes);
@@ -215,7 +214,9 @@ $(document).on("click",".BUTTON-COPY",function(){
 
 $(document).on("change",'.QUICK-EDIT',function(){
   var tab = $(this).closest("table");
-  var id = $(this).attr("id").split("-");
+  var id = $(this).attr("id");
+  if (!id) return
+  id = id.split("-");
   var table = id[0];
   var rowid = id[1];
   var column = id[2];
@@ -295,10 +296,23 @@ $(document).on("click", ".TD-LINK:not(.disabled)", function(){
 });
 
 $(document).on("haxdb-table-draw haxdb-view-draw", function(){
-  flatpickr(".TIMESTAMP", {
-    enableTime: true,
-    altInput: true,
-    altFormat: "Y-m-d H:i:S",
-    dateFormat: "U",
+  $(".TIMESTAMP").each(function(){
+    var id = $(this).attr("id");
+    var timestamp = parseInt($(this).attr("timestamp-value"));
+    var this_date = null;
+    if (timestamp){
+      this_date = new Date(timestamp*1000);
+    }
+    var obj = document.getElementById(id);
+    obj.flatpickr({
+      enableTime: true,
+      altInput: true,
+      altFormat: "Y-m-d H:i:S",
+      dateFormat: "U",
+      allowInput: true,
+      defaultDate: this_date,
+    });
   });
+
+  $("select[readonly] option:not(:selected)").remove(); //attr("disabled", true);
 });

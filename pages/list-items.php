@@ -8,7 +8,7 @@ $_API_CONTEXT_ID = $_LISTS_ID;
 $_API_PARENT = "LISTS";
 $_API_PARENT_LINK = "/page/lists";
 
-$_ROW_EDIT = "";
+$_ROW_EDIT = "/page/list-item";
 $_ROW_ID = "LIST_ITEMS_ID";
 $_ROW_INTERNAL = "LIST_ITEMS_INTERNAL";
 $_ROW_NAME = "LIST_ITEMS_VALUE";
