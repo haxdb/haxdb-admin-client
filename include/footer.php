@@ -48,16 +48,17 @@
     </div>
 
     <form id='haxdb-file-upload-form' class='hidden' enctype='multipart/form-data'>
-    <input type='hidden' id='haxdb-file-upload-call' value=''/>
-    <input type='hidden' id='haxdb-file-upload-cell-id' value=''/>
-    <input type='file' id='haxdb-file-upload' class='hidden'/>
+    <input type='hidden' id='haxdb-file-upload-api_name' value=''/>
+    <input type='hidden' id='haxdb-file-upload-rowid' value=''/>
+    <input type='hidden' id='haxdb-file-upload-field_name' value=''/>
+    <!--<input type='file' id='haxdb-file-upload-file' class='hidden'/>-->
     </form>
 
     <form METHOD='POST' id='haxdb-file-download-form' class='hidden' enctype='multipart/form-data' target='_blank'>
     <input type='hidden' id='haxdb-file-download-rowid' name='rowid' value=''/>
-    <input type='hidden' id='haxdb-file-download-col' name='col' value=''/>
+    <input type='hidden' id='haxdb-file-download-field_name' name='field_name' value=''/>
     <input type='hidden' id='haxdb-file-download-api_key' name='api_key' value=''/>
-	</form>
+	  </form>
 
     <input type='TEXT' id='haxdb-copy-input' style='position: absolute; display: none; left: -5000px; top: -5000px;'/>
 

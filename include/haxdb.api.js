@@ -24,13 +24,18 @@ function apiDownload(call, data){
 }
 
 function apiUpload(func_success){
-    var call = $('#haxdb-file-upload-call').val();
-    var url = API_URL + call;
-    var data = new FormData();
-    data.append("api_key",localStorage.getItem("api_key"));
-    data.append("value", $("#haxdb-file-upload")[0].files[0]);
+  var api_name = $('#haxdb-file-upload-api_name').val();
+  var rowid = $('#haxdb-file-upload-rowid').val();
+  var field_name = $('#haxdb-file-upload-field_name').val();
+  var call = api_name + "/upload";
+  var url = API_URL + call;
+  var data = new FormData();
+  data.append("api_key",localStorage.getItem("api_key"));
+  data.append("file", $("#haxdb-file-upload-file")[0].files[0]);
+  data.append("rowid", rowid);
+  data.append("field_name", field_name);
 
-    $.ajax({
+  $.ajax({
         type: "POST",
         url: url,
         data: data,
@@ -44,7 +49,7 @@ function apiUpload(func_success){
             xhr.upload.addEventListener("progress", function(evt){
               if (evt.lengthComputable) {
                 var percentComplete = Math.floor( (evt.loaded / evt.total) * 100 );
-                $('.TABLE-FILE-PROGRESS-SPAN:visible').text(percentComplete + "%");
+                //$('.TABLE-FILE-PROGRESS-SPAN:visible').text(percentComplete + "%");
                 console.log(percentComplete + "%");
               }
             }, false);
@@ -83,11 +88,10 @@ function api_success(data){
 
     if (data && data.success && data.success==1){
 
-		if (data && data.table && data.rowid && data.column){
+		    if (data && data.table && data.rowid && data.column){
             tdid = "[id='" + data.table + "-" + data.rowid + "-" + data.column + "']";
             $(tdid).removeClass("saving");
         }
-
 
         return true;
     }else{
@@ -110,9 +114,10 @@ function api_success(data){
 //if (!api_key){ document.location = '/auth'; }
 //******************************************************************
 
+/*
 $(document).on("click","a.HAXDB-DOWNLOAD", function(e){
   var call = $(this).attr("href");
-  console.log(call);
   apiDownload(call,{});
   e.preventDefault();
 });
+*/

@@ -61,12 +61,32 @@ overflow-y: auto;
   background: none;
 }
 
-td.TD-FILE {
-    text-align: center;
+.haxdb-file-buttons {
+  padding: 7px 5px;
+  text-align: center;
 }
 
-td.TD-FILE .btn-group {
-    margin: 10px;
+.haxdb-file-button {
+    margin: 5px;
+    color: #000;
+    cursor: pointer;
+}
+
+.haxdb-file-button[file-action=clear]{
+    color: pink;
+}
+
+.haxdb-file-button[file-action=download]{
+    color: lightblue;
+}
+
+.haxdb-file-button[file-action=upload]{
+    color: lightgreen;
+}
+
+.haxdb-file-button i{
+    font-size: 25px;
+    padding: 5px;
 }
 
 table.table th {

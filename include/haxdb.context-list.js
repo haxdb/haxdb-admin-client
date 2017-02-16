@@ -16,7 +16,6 @@ find_PAGE_DATA = function(rowid){
   rowid = parseInt(rowid);
   result = null;
   $.each(PAGE_DATA, function(key, row){
-    console.log(row[ROWID_NAME] == rowid);
     if (row[ROWID_NAME] && row[ROWID_NAME]==rowid){
       result = row;
       return false;
@@ -68,7 +67,6 @@ select_query = function(){
     qname = QUERIES[qid]["QUERY_NAME"];
     query = QUERIES[qid]["QUERY_QUERY"];
     CURRENT_QUERY = qid;
-    console.log(qid, qname, query);
     $('#PAGE-SEARCH').val(query);
     draw_query_options();
     $('#PAGE-SEARCH').change();

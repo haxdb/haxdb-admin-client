@@ -44,9 +44,12 @@ var _ROW_NAME = "<?= $_ROW_NAME ?>";
 <div class="input-group">
   <input ID='PAGE-SEARCH' type='text' class='form-control' placeholder='SEARCH' VALUE='<?=$_DEFAULT_QUERY?>'/>
   <div class="input-group-btn">
-      <button type=button class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <span class="fa fa-angle-down"></span>
-      </button>
+    <button type=button class="btn" id='PAGE-REFRESH'>
+      <span class="fa fa-refresh"></span>
+    </button>
+    <button type=button class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <span class="fa fa-angle-down"></span>
+    </button>
       <ul class='dropdown-menu dropdown-menu-right' ID='QUERY-DROPDOWN'>
       </ul>
   </div>

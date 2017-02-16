@@ -73,24 +73,28 @@ haxdb_input = function ( id, row, col, options, input_classes="", input_attrs={}
   }
 
   if (type == "FILE"){
-    input = $("<div>").addClass("btn-group").attr("role","group").attr("aria-label","FILE");
+    input = $("<div>").addClass("haxdb-file-buttons");
 
-    button = $("<button>").addClass("btn").attr("id",id).attr("file-action","download");
-    if (!val){ $(button).addClass("disabled"); }
-    icon = $("<i>").addClass("fa fa-cloud-download");
-    $(button).append(icon);
-    $(input).append(button);
+    if (val){
+      button = $("<a>").attr("id",id).attr("file-action","clear");
+      $(button).addClass("haxdb-file-button");
+      icon = $("<i>").addClass("fa fa-ban fa-border");
+      $(button).append(icon);
+      $(input).append(button);
 
-    button = $("<button>").addClass("btn").attr("id",id).attr("file-action","clear");
-    if (!val){ $(button).addClass("disabled"); }
-    icon = $("<i>").addClass("fa fa-trash-o");
-    $(button).append(icon);
-    $(input).append(button);
-
-    button = $("<button>").addClass("btn").attr("id",id).attr("file-action","upload");
-    icon = $("<i>").addClass("fa fa-cloud-upload");
-    $(button).append(icon);
-    $(input).append(button);
+      button = $("<a>").attr("id",id).attr("file-action","download");
+      $(button).addClass("haxdb-file-button");
+      if (!val){ $(button).addClass("disabled"); }
+      icon = $("<i>").addClass("fa fa-download fa-border");
+      $(button).append(icon);
+      $(input).append(button);
+    }else{
+      button = $("<a>").attr("id",id).attr("file-action","upload");
+      $(button).addClass("haxdb-file-button");
+      icon = $("<i>").addClass("fa fa-upload fa-border");
+      $(button).append(icon);
+      $(input).append(button);
+    }
   }
 
   if (type == "ID"){
@@ -167,13 +171,14 @@ haxdb_table_cell = function ( col, api_name, rowid, row, quick_edit = true ){
 save_callback = function(data){
   if (api_success(data)){
     haxSay(data.message,"success");
-    base = data.meta.api + "-" + data.meta.rowid + "-";
-    $.each(data.meta.updated, function(key,col){
+    if (data.meta && data.meta.api){
+      base = data.meta.api + "-" + data.meta.rowid + "-";
+      $.each(data.meta.updated, function(key,col){
       obj = document.getElementById(base + col);
       $(obj).removeClass("saving");
     });
+    }
   }else{
-
     if (data.meta){
       base = data.meta.api + "-" + data.meta.rowid + "-";
       $.each(data.meta.updated, function(key,col){
@@ -211,7 +216,6 @@ $(document).on("click",".BUTTON-COPY",function(){
   $('#haxdb-copy-input').val("").css("display","none");
 });
 
-
 $(document).on("change",'.QUICK-EDIT',function(){
   var tab = $(this).closest("table");
   var id = $(this).attr("id");
@@ -246,44 +250,59 @@ $(document).on("keydown", '.TABLE-EDIT', function(e){
 
 // FILE
 
-$(document).on("click",".TABLE-FILE-UPLOAD", function(){
-  var tmp = $(this).attr("id").split("-");
-  var table = tmp[0];
-  var rowid = tmp[1];
-  var column = tmp[2];
-  var call = table + "/save/" + rowid + "/" + column;
-  $('#haxdb-file-upload-call').val(call);
-  $('#haxdb-file-upload').click();
-  $('#haxdb-file-upload-cell-id').val($(this).closest("td").attr("id"));
+$(document).on("click", ".haxdb-file-button", function(){
+  var action = $(this).attr("file-action");
+  var id = $(this).attr("id").split("-");
+  var api_name = id[0];
+  var rowid = id[1];
+  var field_name = id[2];
+  if (action == "upload"){
+    $('#haxdb-file-upload-file').remove();
+    $('#haxdb-file-upload-api_name').val(api_name);
+    $('#haxdb-file-upload-rowid').val(rowid);
+    $('#haxdb-file-upload-field_name').val(field_name);
+    f = $("<input>").attr({ "id": "haxdb-file-upload-file", "type": "file" });
+    $(f).addClass("hidden");
+    $("#haxdb-file-upload-form").append(f);
+    $('#haxdb-file-upload-file').click();
+  } else if (action == "download"){
+    var call = api_name + "/download";
+    var data = { "rowid": rowid, "field_name": field_name }
+    apiDownload(call, data);
+  } else if (action == "clear"){
+    var call = api_name + "/save";
+    var data = { "rowid": rowid }
+    data[field_name] = "";
+    alertify.confirm("Are you sure you want to clear this file?", function(){
+      api(call, data, function(data){
+      save_callback(data);
+      if (typeof load_table !== "undefined"){
+        load_table();
+      }else{
+        load_view();
+      }
+    });
+    });
+  }
 });
 
-$(document).on("change","#haxdb-file-upload", function(){
-  var cellid = $('#haxdb-file-upload-cell-id').val();
-  $("#" + cellid + " .TABLE-FILE-BUTTON-SPAN").hide();
-  $("#" + cellid + " .TABLE-FILE-PROGRESS-SPAN").show();
-  apiUpload(load_table);
-});
-
-$(document).on("click",".TABLE-FILE-DOWNLOAD", function(){
-  var tmp = $(this).attr("id").split("-");
-  var table = tmp[0];
-  var rowid = tmp[1];
-  var column = tmp[2];
-  var call = API_URL + table + "/download";
-  $('#haxdb-file-download-form').attr("action",call);
-  $('#haxdb-file-download-rowid').val(rowid);
-  $('#haxdb-file-download-col').val(column);
-  $('#haxdb-file-download-api_key').val(localStorage["api_key"]);
-  $('#haxdb-file-download-form').submit();
+$(document).on("change","#haxdb-file-upload-file", function(){
+  apiUpload(function(data){
+    if (typeof load_table !== "undefined"){
+      load_table();
+    }else{
+      load_view();
+    }
+    save_callback(data);
+  });
 });
 
 // FILE
-//
+
 $(document).on("click",".TABLE-LINK", function(){
   var url = $(this).attr("href");
   document.location=url;
 });
-
 
 $(document).on("click",".CHECKBOX-CLICK", function(){
   target = $(this).attr("CHECKBOX-TARGET");

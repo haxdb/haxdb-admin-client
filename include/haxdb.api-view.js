@@ -15,6 +15,7 @@ draw_name = function(){
 }
 
 draw_view = function(){
+    $("#PAGE-VIEW-FORM").empty();
     last_category = null;
     $.each(COLS, function(key,col){
       category = last_category;

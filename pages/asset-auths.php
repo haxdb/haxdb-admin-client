@@ -117,7 +117,7 @@ new_auth_callback = function(data){
 new_auth_row = function(people_id){
   var call = "ASSET_AUTHS/new";
   var data = {
-    "ASSETS_ID": <?=$rowid?>, 
+    "ASSETS_ID": <?=$rowid?>,
     "ASSET_AUTHS_PEOPLE_ID": people_id
   }
   api(call,data,new_auth_callback);
@@ -125,7 +125,6 @@ new_auth_row = function(people_id){
 
 load_auth_search = function(){
   var query = $('#PAGE-SEARCH').val();
-  console.log(query);
   if (query){
     var data = { "query": query }
     api("PEOPLE/list",data, load_people_search_callback);

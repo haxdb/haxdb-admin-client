@@ -93,7 +93,7 @@ load_table_callback = function(data){
 new_callback = function(data){
     if (api_success(data)){
         haxSay("NODE CREATED","success");
-        load_table(); 
+        load_table();
     }
 }
 
@@ -125,10 +125,9 @@ $(function(){
     $('#NODES-TABLE').tablesorter( {textExtraction: tablesortExtraction} );
     $('#NODES-NEW').click(new_api_key);
     $('#NODES-SEARCH').change(load_table);
-    $(document).on("click",'.APPROVE-NODE',function(){ 
+    $(document).on("click",'.APPROVE-NODE',function(){
         var tmp = $(this).attr("id").split("-");
         var rowid = tmp[2];
-        console.log(rowid);
         approve_node(rowid);
     });
     load_table();

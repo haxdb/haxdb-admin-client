@@ -675,6 +675,7 @@ $(function() {
   });
 
   $('#PAGE-SEARCH').change(load_table);
+  $('#PAGE-REFRESH').click(load_table);
   $('#LIST-TABLE').tablesorter({
     textExtraction: tablesortExtraction
   });
