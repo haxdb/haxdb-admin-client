@@ -42,8 +42,8 @@
               <li><hr/></li>
               <li><a href="/page/people"><span class='fa fa-fw fa-group'></span>PEOPLE</a></li>
               <li><a href="/page/assets"><span class='fa fa-fw fa-wrench'></span>ASSETS</a></li>
-              <li><a href="/page/lists"><span class='fa fa-fw fa-list'></span>LISTS</a></li>
               <li><a href="/page/nodes"><span class='fa fa-fw fa-cube'></span>NODES</a></li>
+              <li><a href="/page/lists"><span class='fa fa-fw fa-list'></span>LISTS</a></li>
               <li><hr/></li>
               <li><a href="/auth"><span class='fa fa-fw fa-sign-out'></span>LOGOUT</a></li>
           </ul>
@@ -53,7 +53,6 @@
                 <a href='#' id='haxdb-user' class='dropdown-toggle' data-toggle='dropdown' style='margin-right:10px;'><script> document.write(localStorage.identity); </script> <b class='caret'></b></a>
                 <ul class='dropdown-menu dropdown-menu-right pull-left'>
                     <li><a href="/page/lists"><span class='fa fa-fw fa-list'></span>LISTS</a></li>
-                    <li><a href="/page/nodes"><span class='fa fa-fw fa-cube'></span>NODES</a></li>
                     <li><a href="/auth"><span class='fa fa-fw fa-sign-out'></span>LOGOUT</a></li>
                 </ul>
             </li>
@@ -67,7 +66,7 @@
         <div id='sidebar' class="col-sm-2 col-md-2 col-lg-1 col-xl-1 hidden-xs">
             <a href="/page/people"><span class='fa fa-4x fa-group'></span>PEOPLE</a>
             <a href="/page/assets"><span class='fa fa-4x fa-wrench'></span>ASSETS</a>
-            <a href="/page/lists"><span class='fa fa-4x fa-list'></span>LISTS</a>
+            <!-- <a href="/page/lists"><span class='fa fa-4x fa-list'></span>LISTS</a> -->
             <a href="/page/nodes"><span class='fa fa-4x fa-cube'></span>NODES</a>
         </div>
         <div id='page' class="col-xs-12 col-sm-10 col-md-10 col-lg-11 col-xl-11">

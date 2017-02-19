@@ -65,6 +65,7 @@ var _ROW_NAME = "<?= $_ROW_NAME ?>";
 
 </tbody>
 </table>
+<div id='TABLE-TOTAL'></div>
 <div id='loader'></div>
 </div>
 

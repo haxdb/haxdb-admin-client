@@ -497,7 +497,9 @@ draw_table = function() {
 
   $('#LIST-TABLE tbody').empty();
   if (API_DATA) {
+    var table_total = 0;
     $.each(API_DATA, function(rowid, row) {
+      table_total += 1;
       tr = $('<tr>');
 
       total = 0;
@@ -540,6 +542,7 @@ draw_table = function() {
 
       $('#LIST-TABLE tbody').append(tr);
     });
+    $("#TABLE-TOTAL").html("TOTAL: " + table_total);
     $('#LIST-TABLE').tablesorter({
       textExtraction: tablesortExtraction
     });
